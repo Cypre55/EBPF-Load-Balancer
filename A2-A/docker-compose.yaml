@@ -1,0 +1,23 @@
+version: '0.1'
+
+services:
+  client:
+    image: python:3-slim
+    command: python3 /src/client.py
+    volumes:
+      - ./client:/src
+    environment:
+      - TERM=xterm-color
+    depends_on:
+      - server
+    
+  server:
+    build:
+      context: .
+      dockerfile: ./server/Dockerfile
+    command: bash /src/startup_script.sh
+    environment:
+      - TERM=xterm-color
+    volumes:
+      - ./server:/src
+    privileged: true

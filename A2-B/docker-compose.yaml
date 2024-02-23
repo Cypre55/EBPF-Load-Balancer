@@ -1,0 +1,45 @@
+version: '0.1'
+
+services:
+  client:
+    image: python:3-slim
+    command: python3 /src/client.py
+    volumes:
+      - ./client:/src
+    environment:
+      - TERM=xterm-color
+
+  lb:
+    build:
+      context: .
+      dockerfile: ./load-balancer/Dockerfile
+    command: bash /src/startup_script.sh
+    volumes:
+      - ./load-balancer:/src
+    environment:
+      - TERM=xterm-color
+    privileged: true
+
+  server1:
+    image: python:3-slim
+    command: python3 /src/server.py
+    volumes:
+      - ./server:/src
+    environment:
+      - TERM=xterm-color
+
+  server2:
+    image: python:3-slim
+    command: python3 /src/server.py
+    volumes:
+      - ./server:/src
+    environment:
+      - TERM=xterm-color
+
+  server3:
+    image: python:3-slim
+    command: python3 /src/server.py
+    volumes:
+      - ./server:/src
+    environment:
+      - TERM=xterm-color
